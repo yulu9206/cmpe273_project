@@ -1,8 +1,13 @@
-import datetime
 import hashlib
-import time
+import json
+from time import time
 from urllib.parse import urlparse
+from uuid import uuid4
+
 import requests
+from flask import Flask, jsonify, request
+
+
 
 class Blockchain(object):
     def __init__(self):
