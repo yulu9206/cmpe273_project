@@ -38,24 +38,24 @@ class Blockchain:
         :return: True if valid, False if not
         """
 
-        last_block = chain[0]
+        prev_block = chain[0]
         current_index = 1
 
         while current_index < len(chain):
             block = chain[current_index]
-            print(f'{last_block}')
+            print(f'{prev_block}')
             print(f'{block}')
             print("\n-----------\n")
             # Check that the hash of the block is correct
-            last_block_hash = self.hash(last_block)
-            if block['previous_hash'] != last_block_hash:
+            prev_block_hash = self.hash(prev_block)
+            if block['previous_hash'] != prev_block_hash:
                 return False
 
             # Check that the Proof of Work is correct
-            if not self.valid_proof(last_block['proof'], block['proof'], last_block_hash):
+            if not self.valid_proof(prev_block['proof'], block['proof'], prev_block_hash):
                 return False
 
-            last_block = block
+            prev_block = block
             current_index += 1
 
         return True
@@ -129,10 +129,10 @@ class Blockchain:
             'amount': amount,
         })
 
-        return self.last_block['index'] + 1
+        return self.prev_block['index'] + 1
 
     @property
-    def last_block(self):
+    def prev_block(self):
         return self.chain[-1]
 
     @staticmethod
@@ -146,18 +146,18 @@ class Blockchain:
         block_string = json.dumps(block, sort_keys=True).encode()
         return hashlib.sha256(block_string).hexdigest()
 
-    def proof_of_work(self, last_block):
+    def proof_of_work(self, prev_block):
         """
         Simple Proof of Work Algorithm:
          - Find a number p' such that hash(pp') contains leading 4 zeroes
          - Where p is the previous proof, and p' is the new proof
          
-        :param last_block: <dict> last Block
+        :param prev_block: <dict> last Block
         :return: <int>
         """
 
-        last_proof = last_block['proof']
-        last_hash = self.hash(last_block)
+        last_proof = prev_block['proof']
+        last_hash = self.hash(prev_block)
 
         proof = 0
         while self.valid_proof(last_proof, proof, last_hash) is False:
