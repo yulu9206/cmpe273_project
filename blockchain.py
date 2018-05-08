@@ -27,6 +27,9 @@ class Blockchain(object):
         _new_block._init(len(self.chain) + 1)
         _new_block.prev_hash = prev_hash or self.chain[-1].cur_hash
         _new_block.proof = proof
+        _new_block.product = self.cur_products
+
+        self.cur_products = []
 
         #
         #_new_block.product = _new_product
