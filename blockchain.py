@@ -17,7 +17,9 @@ class Blockchain(object):
     def toJSON(self):
         #return json.dumps(self, default=lambda o: o.__dict__, 
         #    sort_keys=True, indent=4)
+        #print("***************")
         json_string = json.dumps([ob.__dict__ for ob in self.chain])
+        #print(json_string)
         return json_string
 
     def register_node(self, address):

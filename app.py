@@ -63,7 +63,7 @@ def new_transaction():
 @app.route('/chain', methods=['GET'])
 def full_chain():
     response = {
-        'chain': blockchain.toJSON,
+        'chain': blockchain.toJSON(),
         'length': len(blockchain.chain),
     }
     return jsonify(response), 200
@@ -94,12 +94,12 @@ def consensus():
     if replaced:
         response = {
             'message': 'Our chain was replaced',
-            'new_chain': blockchain.toJSON
+            'new_chain': blockchain.toJSON()
         }
     else:
         response = {
             'message': 'Our chain is authoritative',
-            'chain': blockchain.toJSON
+            'chain': blockchain.toJSON()
         }
 
     return jsonify(response), 200
