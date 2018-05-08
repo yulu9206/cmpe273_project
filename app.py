@@ -24,22 +24,22 @@ def mine():
 
     # We must receive a reward for finding the proof.
     # The sender is "0" to signify that this node has mined a new coin.
-    blockchain.new_transaction(
-        sender="0",
-        recipient=node_identifier,
-        amount=1,
+    blockchain._new_product(
+        name="0",
+        manufacturer=node_identifier,
+        types="snack",
     )
 
     # Forge the new Block by adding it to the chain
-    previous_hash = blockchain.hash(last_block)
+    previous_hash = blockchain.last_block.cur_hash
     block = blockchain.new_block(proof, previous_hash)
 
     response = {
         'message': "New Block Forged",
-        'index': block['index'],
-        'transactions': block['transactions'],
-        'proof': block['proof'],
-        'previous_hash': block['previous_hash'],
+        'index': block.index,
+        'product': block.product,
+        'proof': block.proof,
+        'previous_hash': block.prev_hash,
     }
     return jsonify(response), 200
 
@@ -54,7 +54,7 @@ def new_transaction():
         return 'Missing values', 400
 
     # Create a new Transaction
-    index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
+    index = blockchain._new_product(values['index'], values['manufacturer'], values['types'])
 
     response = {'message': f'Transaction will be added to Block {index}'}
     return jsonify(response), 201

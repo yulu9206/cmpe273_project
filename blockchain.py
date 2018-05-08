@@ -67,8 +67,8 @@ class Blockchain(object):
 
         return False
     
-    def _new_product(self, name, manufacturer):
-        _new_product = {'name':name, 'manufacturer':manufacturer}
+    def _new_product(self, name, manufacturer,types):
+        _new_product = {'name':name, 'manufacturer':manufacturer, 'types':types}
         self.cur_products.append(_new_product)
         return self.last_block.index + 1
 
