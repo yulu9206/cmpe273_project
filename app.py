@@ -1,9 +1,9 @@
 from time import time
 from urllib.parse import urlparse
 from uuid import uuid4
-
+import json
 import requests
-from blockchain import Blockchain
+from blockchain import Blockchain,Block
 from flask import Flask, jsonify, request
 
 # Instantiate the Node
@@ -44,12 +44,12 @@ def mine():
     return jsonify(response), 200
 
 
-@app.route('/transactions/new', methods=['POST'])
+@app.route('/products/new', methods=['POST'])
 def new_transaction():
     values = request.get_json()
 
     # Check that the required fields are in the POST'ed data
-    required = ['sender', 'recipient', 'amount']
+    required = ['index', 'manufacturer', 'types']
     if not all(k in values for k in required):
         return 'Missing values', 400
 
@@ -63,7 +63,7 @@ def new_transaction():
 @app.route('/chain', methods=['GET'])
 def full_chain():
     response = {
-        'chain': blockchain.chain,
+        'chain': blockchain.chain.toJSON,
         'length': len(blockchain.chain),
     }
     return jsonify(response), 200
@@ -94,12 +94,12 @@ def consensus():
     if replaced:
         response = {
             'message': 'Our chain was replaced',
-            'new_chain': blockchain.chain
+            'new_chain': blockchain.chain.toJSON
         }
     else:
         response = {
             'message': 'Our chain is authoritative',
-            'chain': blockchain.chain
+            'chain': blockchain.chain.toJSON
         }
 
     return jsonify(response), 200

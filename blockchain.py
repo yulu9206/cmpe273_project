@@ -3,6 +3,8 @@ import hashlib
 import time
 from urllib.parse import urlparse
 import requests
+import json
+from json import JSONEncoder
 
 class Blockchain(object):
     def __init__(self):
@@ -11,6 +13,12 @@ class Blockchain(object):
         self.nodes = set()
 
         _init_block = self.new_block(prev_hash = '1', proof = 100)
+
+    def toJSON(self):
+        #return json.dumps(self, default=lambda o: o.__dict__, 
+        #    sort_keys=True, indent=4)
+        json_string = json.dumps([ob.__dict__ for ob in self.chain])
+        return json_string
 
     def register_node(self, address):
         """
@@ -33,6 +41,7 @@ class Blockchain(object):
 
         #
         #_new_block.product = _new_product
+
 
         self.chain.append(_new_block)
         return _new_block
@@ -138,7 +147,9 @@ class Blockchain(object):
         guess = f'{last_proof}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == "0000"
-        
+
+
+
 class Block:
     def __init__(self):
         self.index = -1
@@ -147,7 +158,7 @@ class Block:
         self.prev_hash = None
         self.cur_hash= None
         self.proof = None
-    
+
     def _hash_block(self):
         return hashlib.sha256(bytearray(str(self.prev_hash) + str(self.timestamp) + str(self.index), "utf-8")).hexdigest()
 
