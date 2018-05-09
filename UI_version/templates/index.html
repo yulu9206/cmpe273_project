@@ -2,40 +2,52 @@
 <html>
 <head>
 	<title>watermelon</title>
+	<link href="css/bootstrap2.css" rel="stylesheet">
 	<link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
 </head>
 <body>
 	<div class="main">
-		<div id="inputbox" class="center">
-			<form action="/chain" method="get">
-				<input type="submit" value="Get the baby food blockchain" name="Submit"/>
-			</form>
-			<form action="/mine" method="get">
-				<input type="submit" value="Mine a New Block" name="Submit"/>
-			</form>
-			<form action="/products/new" method="post">
-				Prodct Name <input type="text" name="name">
-				Type: 
-				<select name="type">
-					<option>Formula</option>
-					<option>Snack</option>
-				</select>
-				Manufactor <input type="text" name="manufactor">
-				Description
-				<textarea name="description"></textarea>
-				<input type="submit" name="submit" value="Register a Baby Food">
-			</form>
+		<div class="container">
+			<div id="inputbox" class="center">
+				<form action="/chain" method="get">
+					<div class="form-group">
+						<input class="btn btn-primary" type="submit" value="Get the baby food blockchain" name="Submit"/>
+					</div>
+				</form>
+				<form action="/mine" method="get">
+					<div class="form-group">
+						<input class="btn btn-primary" type="submit" value="Mine a New Block" name="Submit"/>
+					</div>
+				</form>
+				<form action="/products/new" method="post">
+					<div class="form-group">
+						<label>Prodct Name:</label>
+						<input class="form-control" type="text" name="name">
+						<label>Type: </label>
+						<select class="form-control" name="type">
+							<option>Formula</option>
+							<option>Snack</option>
+						</select>
+						<label>Manufactor: </label>
+						<input class="form-control" type="text" name="manufactor">
+						<label>Description:</label>
+						<textarea class="form-control" name="description"></textarea>
+					</div>
+						<input class="btn btn-primary" type="submit" name="submit" value="Register a Baby Food">
+					
+				</form>
+			</div>
+			<div id="msgbox" class="center alert alert-primary" role="alert">
+				{% with messages = get_flashed_messages() %}
+					{% if messages %}
+						{% for message in messages %}
+								<p>{{message}}</p>
+						{% endfor %}
+					{% endif %}
+				{% endwith %}
+			</div>
 		</div>
-		<div id="msgbox" class="center">
-			{% with messages = get_flashed_messages() %}
-				{% if messages %}
-					{% for message in messages %}
-							<p>{{message}}</p>
-					{% endfor %}
-				{% endif %}
-			{% endwith %}
-		</div>
-</div>
+	</div>
 </body>
 </html>
