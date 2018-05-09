@@ -1,10 +1,13 @@
+import hashlib
+import json
 from time import time
 from urllib.parse import urlparse
 from uuid import uuid4
-import json
+from blockchain import Blockchain
+
 import requests
-from blockchain import Blockchain,Block
 from flask import Flask, jsonify, request
+
 
 # Instantiate the Node
 app = Flask(__name__)
@@ -22,39 +25,31 @@ def mine():
     last_block = blockchain.last_block
     proof = blockchain.proof_of_work(last_block)
 
-    # We must receive a reward for finding the proof.
-    # The sender is "0" to signify that this node has mined a new coin.
-    blockchain._new_product(
-        name="0",
-        manufacturer=node_identifier,
-        types="snack",
-    )
-
     # Forge the new Block by adding it to the chain
-    previous_hash = blockchain.last_block.cur_hash
+    previous_hash = blockchain.hash(last_block)
     block = blockchain.new_block(proof, previous_hash)
 
     response = {
         'message': "New Block Forged",
-        'index': block.index,
-        'product': block.product,
-        'proof': block.proof,
-        'previous_hash': block.prev_hash,
+        'index': block['index'],
+        'transactions': block['transactions'],
+        'proof': block['proof'],
+        'previous_hash': block['previous_hash'],
     }
     return jsonify(response), 200
 
 
 @app.route('/products/new', methods=['POST'])
-def new_transaction():
+def new_product():
     values = request.get_json()
 
     # Check that the required fields are in the POST'ed data
-    required = ['index', 'manufacturer', 'types']
+    required = ['name', 'ptype', 'manufacturer', 'description']
     if not all(k in values for k in required):
         return 'Missing values', 400
 
     # Create a new Transaction
-    index = blockchain._new_product(values['index'], values['manufacturer'], values['types'])
+    index = blockchain.new_product(values['name'], values['ptype'], values['manufacturer'], values['description'])
 
     response = {'message': f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
@@ -63,7 +58,7 @@ def new_transaction():
 @app.route('/chain', methods=['GET'])
 def full_chain():
     response = {
-        'chain': blockchain.toJSON(),
+        'chain': blockchain.chain,
         'length': len(blockchain.chain),
     }
     return jsonify(response), 200
@@ -94,12 +89,12 @@ def consensus():
     if replaced:
         response = {
             'message': 'Our chain was replaced',
-            'new_chain': blockchain.toJSON()
+            'new_chain': blockchain.chain
         }
     else:
         response = {
             'message': 'Our chain is authoritative',
-            'chain': blockchain.toJSON()
+            'chain': blockchain.chain
         }
 
     return jsonify(response), 200
