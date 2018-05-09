@@ -1,0 +1,13 @@
+.main {
+    background-image:url(../img/baby1.jpg);
+    width: 100%;
+    height: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.center {
+    margin: auto;
+    width: 70%;
+    border: 3px solid white;
+    padding: 10px;
+}

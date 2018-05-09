@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>watermelon</title>
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+	<div class="main">
+		<div id="inputbox" class="center">
+			<form action="/chain" method="get">
+				<input type="submit" value="Get the baby food blockchain" name="Submit"/>
+			</form>
+			<form action="/mine" method="get">
+				<input type="submit" value="Mine a New Block" name="Submit"/>
+			</form>
+			<form action="/products/new" method="post">
+				Prodct Name <input type="text" name="name">
+				Type: 
+				<select name="type">
+					<option>Formula</option>
+					<option>Snack</option>
+				</select>
+				Manufactor <input type="text" name="manufactor">
+				Description
+				<textarea name="description"></textarea>
+				<input type="submit" name="submit" value="Register a Baby Food">
+			</form>
+		</div>
+		<div id="msgbox" class="center">
+			{% with messages = get_flashed_messages() %}
+				{% if messages %}
+					{% for message in messages %}
+							<p>{{message}}</p>
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+		</div>
+</div>
+</body>
+</html>
