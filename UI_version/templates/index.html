@@ -12,7 +12,7 @@
 			<div id="inputbox" class="center">
 				<form action="/chain" method="get">
 					<div class="form-group">
-						<input class="btn btn-primary" type="submit" value="Get the baby food blockchain" name="Submit"/>
+						<input class="btn btn-primary" type="submit" value="Get the Baby Foods Blockchain" name="Submit"/>
 					</div>
 				</form>
 				<form action="/mine" method="get">
@@ -26,11 +26,14 @@
 						<input class="form-control" type="text" name="name">
 						<label>Type: </label>
 						<select class="form-control" name="type">
-							<option>Formula</option>
-							<option>Snack</option>
+							<option>Baby Formula</option>
+							<option>Meals</option>
+							<option>Snack Foods</option>
+							<option>Cereal</option>
+							<option>Beverages</option>
 						</select>
-						<label>Manufactor: </label>
-						<input class="form-control" type="text" name="manufactor">
+						<label>Manufacturer: </label>
+						<input class="form-control" type="text" name="manu">
 						<label>Description:</label>
 						<textarea class="form-control" name="description"></textarea>
 					</div>
@@ -46,6 +49,7 @@
 						{% endfor %}
 					{% endif %}
 				{% endwith %}
+				{{res}}
 			</div>
 		</div>
 	</div>

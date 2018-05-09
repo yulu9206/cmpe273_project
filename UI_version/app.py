@@ -12,6 +12,7 @@ from flask import Flask, request, redirect, render_template, flash, jsonify
 
 # Instantiate the Node
 app = Flask(__name__)
+app.secret_key = 'KeepItSecretKeepItSafe'
 
 # Generate a globally unique address for this node
 node_identifier = str(uuid4()).replace('-', '')
@@ -40,23 +41,31 @@ def mine():
         'proof': block['proof'],
         'previous_hash': block['previous_hash'],
     }
-    return jsonify(response), 200
-
+    # return jsonify(response), 200
+    flash(response['message'])
+    return	render_template('index.html', res = response)
 
 @app.route('/products/new', methods=['POST'])
 def new_product():
-    values = request.get_json()
-
+    # values = request.get_json()
+    values = {
+        'name': request.form['name'],
+        'ptype': request.form['type'],
+        'manufacturer': request.form['manu'],
+        'description': request.form['description']
+    }
     # Check that the required fields are in the POST'ed data
-    required = ['name', 'ptype', 'manufacturer', 'description']
-    if not all(k in values for k in required):
-        return 'Missing values', 400
-
+    for key, value in values.items():
+        if len(value) < 1:
+            flash('Missing values')
+            # return 'Missing values', 400
+            return	render_template('index.html')
     # Create a new Transaction
     index = blockchain.new_product(values['name'], values['ptype'], values['manufacturer'], values['description'])
-
-    response = {'message': f'Transaction will be added to Block {index}'}
-    return jsonify(response), 201
+    response = {'message': f'New food will be added to Block {index}'}
+    # return jsonify(response), 201
+    flash(response['message'])
+    return	render_template('index.html')
 
 
 @app.route('/chain', methods=['GET'])
@@ -65,8 +74,8 @@ def full_chain():
         'chain': blockchain.chain,
         'length': len(blockchain.chain),
     }
-    return jsonify(response), 200
-
+    # return jsonify(response), 200
+    return	render_template('index.html', res = response)
 
 @app.route('/nodes/register', methods=['POST'])
 def register_nodes():
