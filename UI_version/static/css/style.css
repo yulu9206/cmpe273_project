@@ -13,6 +13,8 @@
      opacity : 0.7;
      z-index: -1;
  }
+
+ 
 .center {
     margin-left: 700px;
     width: 50%;
@@ -20,3 +22,26 @@
     padding: 10px;
     word-wrap: break-word;
 }
+
+.split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+  
+  /* Control the left side */
+  .left {
+    left: 0;
+    background-color: #111;
+  }
+  
+  /* Control the right side */
+  .right {
+    right: 0;
+    background-color: red;
+  }
+

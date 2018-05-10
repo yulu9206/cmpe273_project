@@ -9,7 +9,7 @@
 <body>
 	<div class="main">
 		<div class="container">
-			<div id="inputbox" class="center">
+			<div id="inputbox" class="col-md-6 split left">
 				<form action="/nodes/register" method="post">
 					<div class="form-group">
 						<label>IP Address:</label>
@@ -54,7 +54,7 @@
 					</div>
 				</form>
 			</div>
-			<div id="msgbox" class="center alert alert-primary" role="alert">
+			<div id="msgbox" class="col-md-6 split right alert alert-primary" role="alert">
 				{% with messages = get_flashed_messages() %}
 					{% if messages %}
 						{% for message in messages %}
