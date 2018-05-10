@@ -80,22 +80,22 @@ def full_chain():
     # return jsonify(response), 200
     return	render_template('index.html', chain = response)
 
-# @app.route('/nodes/register', methods=['POST'])
-# def register_nodes():
-#     values = request.get_json()
+@app.route('/nodes/register', methods=['POST'])
+def register_nodes():
+    values = request.get_json()
 
-#     nodes = values.get('nodes')
-#     if nodes is None:
-#         return "Error: Please supply a valid list of nodes", 400
+    nodes = values.get('nodes')
+    if nodes is None:
+        return "Error: Please supply a valid list of nodes", 400
 
-#     for node in nodes:
-#         blockchain.register_node(node)
+    for node in nodes:
+        blockchain.register_node(node)
 
-#     response = {
-#         'message': 'New nodes have been added',
-#         'total_nodes': list(blockchain.nodes),
-#     }
-#     return jsonify(response), 201
+    response = {
+        'message': 'New nodes have been added',
+        'total_nodes': list(blockchain.nodes),
+    }
+    return render_template('index.html', nodes = response)
 
 
 @app.route('/nodes/resolve', methods=['GET'])
