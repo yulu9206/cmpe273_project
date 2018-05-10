@@ -43,7 +43,7 @@ def mine():
     }
     # return jsonify(response), 200
     flash(response['message'])
-    return	render_template('index.html', res = response)
+    return	render_template('index.html', new_block = response)
 
 @app.route('/products/new', methods=['POST'])
 def new_product():
@@ -62,10 +62,13 @@ def new_product():
             return	render_template('index.html')
     # Create a new Transaction
     index = blockchain.new_product(values['name'], values['ptype'], values['manufacturer'], values['description'])
-    response = {'message': f'New food will be added to Block {index}'}
+    # response = {
+    #     'message': f'New food will be added to Block {index}',
+    #     'food': values
+    # }
     # return jsonify(response), 201
-    flash(response['message'])
-    return	render_template('index.html')
+    flash(f'New food will be added to Block {index}')
+    return	render_template('index.html', added_food = values)
 
 
 @app.route('/chain', methods=['GET'])
@@ -75,24 +78,24 @@ def full_chain():
         'length': len(blockchain.chain),
     }
     # return jsonify(response), 200
-    return	render_template('index.html', res = response)
+    return	render_template('index.html', chain = response)
 
-@app.route('/nodes/register', methods=['POST'])
-def register_nodes():
-    values = request.get_json()
+# @app.route('/nodes/register', methods=['POST'])
+# def register_nodes():
+#     values = request.get_json()
 
-    nodes = values.get('nodes')
-    if nodes is None:
-        return "Error: Please supply a valid list of nodes", 400
+#     nodes = values.get('nodes')
+#     if nodes is None:
+#         return "Error: Please supply a valid list of nodes", 400
 
-    for node in nodes:
-        blockchain.register_node(node)
+#     for node in nodes:
+#         blockchain.register_node(node)
 
-    response = {
-        'message': 'New nodes have been added',
-        'total_nodes': list(blockchain.nodes),
-    }
-    return jsonify(response), 201
+#     response = {
+#         'message': 'New nodes have been added',
+#         'total_nodes': list(blockchain.nodes),
+#     }
+#     return jsonify(response), 201
 
 
 @app.route('/nodes/resolve', methods=['GET'])
@@ -107,11 +110,12 @@ def consensus():
     else:
         response = {
             'message': 'Our chain is authoritative',
-            'chain': blockchain.chain
+            'chain': blockchain.chain,
+            'length': len(blockchain.chain)
         }
-
-    return jsonify(response), 200
-
+    flash(response['message'])
+    # return jsonify(response), 200
+    return render_template('index.html', chain = response)
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
