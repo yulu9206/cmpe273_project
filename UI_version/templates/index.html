@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>watermelon</title>
+	<title>BabyFoodChain</title>
 	<link href="../static/css/bootstrap2.css" rel="stylesheet">
 	<link href="../static/css/bootstrap.css" rel="stylesheet">
 	<link href="../static/css/style.css" rel="stylesheet">
@@ -10,7 +10,13 @@
 	<div class="main">
 		<div class="container">
 			<div id="inputbox" class="center">
-
+				<form action="/nodes/register" method="post">
+					<div class="form-group">
+						<label>IP Address:</label>
+						<input class="form-control" type="text" name="address">
+						<input class="btn btn-primary" type="submit" name="submit" value="Register a New Node">
+					</div>
+				</form>
 				<form action="/products/new" method="post">
 					<div class="form-group">
 						<label>Prodct Name:</label>
