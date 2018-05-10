@@ -37,7 +37,7 @@ def mine():
     response = {
         'message': "New Block Forged",
         'index': block['index'],
-        'transactions': block['transactions'],
+        'products': block['products'],
         'proof': block['proof'],
         'previous_hash': block['previous_hash'],
     }
@@ -60,7 +60,7 @@ def new_product():
             flash('Missing values')
             # return 'Missing values', 400
             return	render_template('index.html')
-    # Create a new Transaction
+    # Create a new Product
     index = blockchain.new_product(values['name'], values['ptype'], values['manufacturer'], values['description'])
     # response = {
     #     'message': f'New food will be added to Block {index}',
