@@ -2,19 +2,46 @@
 <html>
 <head>
 	<title>BabyFoodChain</title>
+	
 	<link href="../static/css/bootstrap2.css" rel="stylesheet">
 	<link href="../static/css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	
 	<link href="../static/css/style.css" rel="stylesheet">
+
+	<style>
+		.jumbotron{
+			height: 180px;
+			background-color: skyblue;
+			color: white;
+		}
+
+		p h2{
+			margin-left:30px;
+		}
+		
+
+	</style>	
 </head>
 <body>
 	<div class="main">
+		<div class="jumbotron">
+				<h2>Baby Food Chain</h2> 
+				<p>Blockchain based baby foods registration system.</p> 
+		</div>
 		<div class="container">
+				
 			<div id="inputbox" class="col-md-6 split left">
 				<form action="/nodes/register" method="post">
 					<div class="form-group">
 						<label>IP Address:</label>
 						<input class="form-control" type="text" name="nodes">
 						<input class="btn btn-primary" type="submit" name="submit" value="Register a New Node">
+					</div>
+				</form>
+				<form action="/nodes/resolve" method="get">
+					<div class="form-group">
+						<input class="btn btn-primary" type="submit" value="Check the Latest Chain" name="Submit"/>
 					</div>
 				</form>
 				<form action="/products/new" method="post">
@@ -38,11 +65,7 @@
 						</div>
 					</form>
 
-				<form action="/nodes/resolve" method="get">
-					<div class="form-group">
-						<input class="btn btn-primary" type="submit" value="Check the Latest Chain" name="Submit"/>
-					</div>
-				</form>
+				
 				<form action="/mine" method="get">
 					<div class="form-group">
 						<input class="btn btn-primary" type="submit" value="Register Added Foods to a New Block" name="Submit"/>
