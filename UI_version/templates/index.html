@@ -70,7 +70,7 @@
 				{% endif %}
 				{% if new_block %}
 					<p>Index: {{new_block['index']}}</p>
-					<p>Foods: {{new_block['transactions']}}</p>
+					<p>Foods: {{new_block['products']}}</p>
 					<p>Proof: {{new_block['proof']}}</p>
 					<p>Previous Hash: {{new_block['previous_hash']}}</p>
 				{% endif %}
@@ -79,7 +79,7 @@
 					<p>Chain Length: {{chain['length']}}</p>
 					{% for block in chain['chain'] %}
 						<p>Index:{{block['index']}}</p>
-						<p>Foods: {{block['transactions']}}</p>
+						<p>Foods: {{block['products']}}</p>
 					{% endfor %}
 				{% endif %}
 				{{res}}

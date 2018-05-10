@@ -37,7 +37,7 @@ def mine():
     response = {
         'message': "New Block Forged",
         'index': block['index'],
-        'transactions': block['transactions'],
+        'products': block['products'],
         'proof': block['proof'],
         'previous_hash': block['previous_hash'],
     }
@@ -60,7 +60,7 @@ def new_product():
             flash('Missing values')
             # return 'Missing values', 400
             return	render_template('index.html')
-    # Create a new Transaction
+    # Create a new Product
     index = blockchain.new_product(values['name'], values['ptype'], values['manufacturer'], values['description'])
     # response = {
     #     'message': f'New food will be added to Block {index}',
@@ -95,7 +95,11 @@ def register_nodes():
         'message': 'New nodes have been added',
         'total_nodes': list(blockchain.nodes),
     }
+<<<<<<< HEAD
     return jsonify(response), 201
+=======
+    return render_template('index.html', nodes = response)
+>>>>>>> f701b56c173688d75d06553ca384ad02865e1059
 
 
 @app.route('/nodes/resolve', methods=['GET'])
