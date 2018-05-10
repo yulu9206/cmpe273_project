@@ -82,6 +82,9 @@
 						<p>Foods: {{block['products']}}</p>
 					{% endfor %}
 				{% endif %}
+				{% if nodes%}
+					{{nodes}}
+				{% endif %}
 				{{res}}
 			</div>
 		</div>
