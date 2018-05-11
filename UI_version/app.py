@@ -128,7 +128,8 @@ def consensus():
     if replaced:
         response = {
             'message': 'Our chain was replaced',
-            'new_chain': blockchain.chain
+            'new_chain': blockchain.chain,
+            'length': len(blockchain.chain)
         }
     else:
         response = {
