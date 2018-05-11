@@ -9,4 +9,5 @@ Use your blockchains to register baby foods: Formula, snacks, etc.
 ### How to run
 ```
 python3 app.py
+python3 app.py -p 5001
 ```
