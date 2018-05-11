@@ -6,11 +6,13 @@ from uuid import uuid4
 from blockchain import Blockchain
 
 import requests
-from flask import Flask, jsonify, request
+# from flask import Flask, jsonify, request
+from flask import Flask, request, redirect, render_template, flash, jsonify
 
 
 # Instantiate the Node
 app = Flask(__name__)
+app.secret_key = 'KeepItSecretKeepItSafe'
 
 # Generate a globally unique address for this node
 node_identifier = str(uuid4()).replace('-', '')
@@ -18,6 +20,9 @@ node_identifier = str(uuid4()).replace('-', '')
 # Instantiate the Blockchain
 blockchain = Blockchain()
 
+@app.route('/') 
+def index():       
+  return render_template('index.html')
 
 @app.route('/mine', methods=['GET'])
 def mine():
@@ -32,27 +37,38 @@ def mine():
     response = {
         'message': "New Block Forged",
         'index': block['index'],
-        'transactions': block['transactions'],
+        'products': block['products'],
         'proof': block['proof'],
         'previous_hash': block['previous_hash'],
     }
-    return jsonify(response), 200
-
+    # return jsonify(response), 200
+    flash(response['message'])
+    return	render_template('index.html', new_block = response)
 
 @app.route('/products/new', methods=['POST'])
 def new_product():
-    values = request.get_json()
-
+    # values = request.get_json()
+    values = {
+        'name': request.form['name'],
+        'ptype': request.form['type'],
+        'manufacturer': request.form['manu'],
+        'description': request.form['description']
+    }
     # Check that the required fields are in the POST'ed data
-    required = ['name', 'ptype', 'manufacturer', 'description']
-    if not all(k in values for k in required):
-        return 'Missing values', 400
-
-    # Create a new Transaction
+    for key, value in values.items():
+        if len(value) < 1:
+            flash('Missing values')
+            # return 'Missing values', 400
+            return	render_template('index.html')
+    # Create a new Product
     index = blockchain.new_product(values['name'], values['ptype'], values['manufacturer'], values['description'])
-
-    response = {'message': f'Transaction will be added to Block {index}'}
-    return jsonify(response), 201
+    # response = {
+    #     'message': f'New food will be added to Block {index}',
+    #     'food': values
+    # }
+    # return jsonify(response), 201
+    flash(f'New food will be added to Block {index}')
+    return	render_template('index.html', added_food = values)
 
 
 @app.route('/chain', methods=['GET'])
@@ -61,25 +77,48 @@ def full_chain():
         'chain': blockchain.chain,
         'length': len(blockchain.chain),
     }
-    return jsonify(response), 200
+    # return jsonify(response), 200
+    return	render_template('index.html', chain = response)
 
+@app.route('/nodeschain', methods=['GET'])
+def full_nodeschain():
+    response = {
+        'chain': blockchain.chain,
+        'length': len(blockchain.chain),
+    }
+    return jsonify(response), 200
 
 @app.route('/nodes/register', methods=['POST'])
 def register_nodes():
-    values = request.get_json()
+    # values = request.get_json()
+    # values = {
+    #     'nodes': request.form['nodes'],
+    # }
 
-    nodes = values.get('nodes')
+    # nodes = values['nodes']
+
+    # nodes = request.form['nodes']
+
+    # print (values)
+
+    nodes = [request.form['nodes']]
+
     if nodes is None:
         return "Error: Please supply a valid list of nodes", 400
 
     for node in nodes:
         blockchain.register_node(node)
 
+    print (list(blockchain.nodes))
+
     response = {
         'message': 'New nodes have been added',
         'total_nodes': list(blockchain.nodes),
     }
-    return jsonify(response), 201
+
+
+
+    return render_template('index.html', nodes = response)
 
 
 @app.route('/nodes/resolve', methods=['GET'])
@@ -89,16 +128,18 @@ def consensus():
     if replaced:
         response = {
             'message': 'Our chain was replaced',
-            'new_chain': blockchain.chain
+            'new_chain': blockchain.chain,
+            'length': len(blockchain.chain)
         }
     else:
         response = {
             'message': 'Our chain is authoritative',
-            'chain': blockchain.chain
+            'chain': blockchain.chain,
+            'length': len(blockchain.chain)
         }
-
-    return jsonify(response), 200
-
+    flash(response['message'])
+    # return jsonify(response), 200
+    return render_template('index.html', chain = response)
 
 if __name__ == '__main__':
     from argparse import ArgumentParser

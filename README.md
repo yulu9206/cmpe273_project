@@ -1,10 +1,13 @@
-# cmpe273_project_WATERMELON
-Build a online shopping web application using OpenFaaS framework.
-Implement the following functions as individual serverless functions:
-  Item listing
-  
-  Search
-  
-  Checkout
-  
-  Notification (Email and/or SMS via Twilio)
+# Blockchain based product registry
+```
+Implement a simple blockchain in Python using Flask.
+```
+### Functional Requirement
+```
+Use your blockchains to register baby foods: Formula, snacks, etc.
+```
+### How to run
+```
+python3 app.py
+python3 app.py -p 5001
+```

@@ -77,7 +77,7 @@ class Blockchain:
 
         # Grab and verify the chains from all the nodes in our network
         for node in neighbours:
-            response = requests.get(f'http://{node}/chain')
+            response = requests.get(f'http://{node}/nodeschain')
 
             if response.status_code == 200:
                 length = response.json()['length']
@@ -106,12 +106,12 @@ class Blockchain:
         block = {
             'index': len(self.chain) + 1,
             'timestamp': time(),
-            'transactions': self.current_products,
+            'products': self.current_products,
             'proof': proof,
             'previous_hash': previous_hash or self.hash(self.chain[-1]),
         }
 
-        # Reset the current list of transactions
+        # Reset the current list of products
         self.current_products = []
 
         self.chain.append(block)
@@ -119,11 +119,11 @@ class Blockchain:
 
     def new_product(self, name, ptype, manufacturer, description):
         """
-        Creates a new transaction to go into the next mined Block
+        Creates a new product to go into the next mined Block
         :param sender: Address of the Sender
         :param recipient: Address of the Recipient
         :param amount: Amount
-        :return: The index of the Block that will hold this transaction
+        :return: The index of the Block that will hold this product
         """
         self.current_products.append({
             'name': name,
