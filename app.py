@@ -6,7 +6,6 @@ from uuid import uuid4
 from blockchain import Blockchain
 
 import requests
-# from flask import Flask, jsonify, request
 from flask import Flask, request, redirect, render_template, flash, jsonify
 
 
@@ -41,13 +40,11 @@ def mine():
         'proof': block['proof'],
         'previous_hash': block['previous_hash'],
     }
-    # return jsonify(response), 200
     flash(response['message'])
     return	render_template('index.html', new_block = response)
 
 @app.route('/products/new', methods=['POST'])
 def new_product():
-    # values = request.get_json()
     values = {
         'name': request.form['name'],
         'ptype': request.form['type'],
@@ -62,11 +59,6 @@ def new_product():
             return	render_template('index.html')
     # Create a new Product
     index = blockchain.new_product(values['name'], values['ptype'], values['manufacturer'], values['description'])
-    # response = {
-    #     'message': f'New food will be added to Block {index}',
-    #     'food': values
-    # }
-    # return jsonify(response), 201
     flash(f'New food will be added to Block {index}')
     return	render_template('index.html', added_food = values)
 
@@ -77,7 +69,6 @@ def full_chain():
         'chain': blockchain.chain,
         'length': len(blockchain.chain),
     }
-    # return jsonify(response), 200
     return	render_template('index.html', chain = response)
 
 @app.route('/nodeschain', methods=['GET'])
@@ -90,17 +81,6 @@ def full_nodeschain():
 
 @app.route('/nodes/register', methods=['POST'])
 def register_nodes():
-    # values = request.get_json()
-    # values = {
-    #     'nodes': request.form['nodes'],
-    # }
-
-    # nodes = values['nodes']
-
-    # nodes = request.form['nodes']
-
-    # print (values)
-
     nodes = [request.form['nodes']]
 
     if nodes is None:
@@ -138,7 +118,6 @@ def consensus():
             'length': len(blockchain.chain)
         }
     flash(response['message'])
-    # return jsonify(response), 200
     return render_template('index.html', chain = response)
 
 if __name__ == '__main__':
