@@ -1,10 +1,10 @@
 # Baby Food Chain
 ```
-Implement a simple blockchain in Python using Flask.
+Implemented a simple blockchain in Python using Flask.
 ```
 ### Functional Requirement
 ```
-Use your blockchains to register baby foods: Formula, snacks, etc.
+Use blockchains to register baby foods: Formula, snacks, etc.
 ```
 ### How to run
 ```
