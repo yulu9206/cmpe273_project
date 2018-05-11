@@ -13,3 +13,6 @@ python3 app.py -p 5001
 ```
 ### Demo Video
 https://drive.google.com/open?id=1qEZMKaUgK_30xap-Ugcq5eD0DB8D9rDN
+
+### Team Member
+Ji Tong, Annan Wang, Lu Yu, Yiming Zhai
